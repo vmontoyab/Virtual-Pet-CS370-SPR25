@@ -1,5 +1,3 @@
-# game/cat.py
-
 import pygame
 from .animal import Animal
 
