@@ -5,4 +5,4 @@ This project brings virtual pets to life through an interactive pet simulation. 
 
 ## To Run:
 Navigate to the games folder and use this command: 
-  **python main.py**
+> **python main.py**
