@@ -1,5 +1,6 @@
 import pygame
 from cat import Cat
+from cat_animations import CatAnimations
 
 # Initialize game window and set title
 pygame.init()
@@ -14,9 +15,10 @@ pygame.display.set_icon(icon)
 background = pygame.image.load("images/background.jpg")
 background = pygame.transform.scale(background, (640, 400)).convert()
 
-# Create clock and cat
+# Load animations, create clock and cat
+CatAnimations.load_all()
 clock = pygame.time.Clock()
-cat = Cat(2, 640, 400, .5)
+cat = Cat(640, 400, .5)
 
 # Game loop
 running = True
@@ -26,7 +28,7 @@ while running:
             running = False
 
     screen.blit(background, (0, 0))
-    cat.update(640, 400)
+    cat.update()
     cat.draw(screen)
     pygame.display.flip()
     clock.tick(60)
