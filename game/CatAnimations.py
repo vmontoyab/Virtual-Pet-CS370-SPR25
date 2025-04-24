@@ -13,4 +13,4 @@ class CatAnimations:
         return load_sprite_sheet(path, self.size, self.scale)
 
     def get(self, animation_name):
-        pass
+        return self.animations.get(animation_name)
