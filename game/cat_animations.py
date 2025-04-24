@@ -12,7 +12,8 @@ class CatAnimations:
             "walk_right": cls.load("WalkRight.png"),
             "walk_left": cls.load("WalkLeft.png"),
             "jump_right": cls.load("JumpRight.png"),
-            "jump_left": cls.load("JumpLeft.png")
+            "jump_left": cls.load("JumpLeft.png"),
+            "run_right": cls.load("Running.png"),
         }
         
     @classmethod
