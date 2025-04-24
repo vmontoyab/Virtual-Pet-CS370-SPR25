@@ -1,4 +1,4 @@
-from sprite_sheet_processor import load_sprite_sheet 
+from sprite_sheet_processor import extract_frames 
 class CatAnimations:
     # Size hard-coded to match sprite pngs
     # Scale 2 : cat proportional to background
@@ -11,12 +11,14 @@ class CatAnimations:
         cls.animations = {
             "walk_right": cls.load("WalkRight.png"),
             "walk_left": cls.load("WalkLeft.png"),
+            "jump_right": cls.load("JumpRight.png"),
+            "jump_left": cls.load("JumpLeft.png")
         }
         
     @classmethod
     def load(cls,filename):
         path = f"images/Cats/Sprites/{filename}"
-        return load_sprite_sheet(path, cls.cat_size, cls.scale)
+        return extract_frames(path, cls.cat_size, cls.scale)
 
     @classmethod
     def get(cls, animation_name):

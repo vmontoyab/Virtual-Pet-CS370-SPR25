@@ -26,6 +26,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                cat.jump()
 
     screen.blit(background, (0, 0))
     cat.update()

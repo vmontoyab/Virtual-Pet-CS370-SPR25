@@ -1,6 +1,6 @@
 import pygame
 
-def load_sprite_sheet(path, cat_size, scale):
+def extract_frames(path, cat_size, scale):
     sheet = pygame.image.load(path).convert_alpha()
     sheet_rect = sheet.get_rect()
     frames = []
