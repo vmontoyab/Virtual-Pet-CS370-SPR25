@@ -1,36 +1,39 @@
 import pygame
 from animal import Animal
-from sprite_sheet_processor import load_sprite_sheet
-
+from cat_animations import CatAnimations
 class Cat(Animal):
-    def __init__(self, scale, screen_width, screen_height, speed_x=2, speed_y=0):
+    def __init__(self, screen_width, screen_height, speed_x=2, speed_y=0):
         super().__init__(screen_width, screen_height)
         self.speed_x = speed_x
         self.speed_y = speed_y
         self.size = 64
 
         floor_offset = 50
-        self.y = (screen_height - floor_offset) - self.size
         self.x = screen_width // 2 - self.size // 2
+        self.y = (screen_height - floor_offset) - self.size
 
-        self.animations = {
-            "right": load_sprite_sheet('images/Cats/Sprites/WalkRight.png', self.size, scale),
-            "left": load_sprite_sheet('images/Cats/Sprites/WalkLeft.png', self.size, scale)
-        }
+        self.action = "walk"
         self.facing = "right"
-        self.frames = self.animations[self.facing]
+        self.frames = CatAnimations.get(f"{self.action}_{self.facing}")
 
         self.current_frame = 0
         self.frame_timer = 0
-        self.frame_delay = 8
+        self.frame_delay = 20
     
+    def set_animation(self, animation_name):
+        new_frames = CatAnimations.get(animation_name)
+        if new_frames:
+            self.frames = new_frames
+            self.current_frame = 0
+    
+
     def change_direction(self, direction):
         self.facing = direction
-        self.frames = self.animations[direction]
         self.speed_x *= -1
+        self.set_animation(f"{self.action}_{self.facing}")
 
 
-    def update(self, screen_width, screen_height):
+    def update(self):
         # Simple horizontal movement + bounce
         self.x += self.speed_x
         self.y += self.speed_y
@@ -42,8 +45,8 @@ class Cat(Animal):
             # Cat starts facing right
             self.change_direction("right")
 
-        elif self.x + self.size > screen_width-wall_offset:
-            self.x = screen_width - wall_offset - self.size
+        elif self.x + self.size > self.screen_width-wall_offset:
+            self.x = self.screen_width - wall_offset - self.size
 
             # Cat flips to face left 
             self.change_direction("left")
