@@ -18,7 +18,7 @@ background = pygame.transform.scale(background, (640, 400)).convert()
 # Load animations, create clock and cat
 CatAnimations.load_all()
 clock = pygame.time.Clock()
-cat = Cat(640, 400, .5)
+cat = Cat(640, 400)
 
 # Game loop
 running = True
@@ -28,7 +28,13 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                cat.jump()
+                cat.brain.jump()
+            elif event.button == 3:
+                if cat.animator.action.startswith("sleep"):
+                    cat.brain.idle()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                cat.brain.idle()
 
     screen.blit(background, (0, 0))
     cat.update()
