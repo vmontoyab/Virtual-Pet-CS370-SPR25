@@ -59,7 +59,6 @@ class Motion:
         if not self.is_on_floor or self.is_jumping:
             self.vy += 1 
 
-# TODO: JUMPING problem seems to be fragments of frames at the end of jump 
     def jump(self, direction):
         # Negative y means pet moves up
         self.vy = -20
