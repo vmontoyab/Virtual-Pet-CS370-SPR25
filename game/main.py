@@ -1,4 +1,6 @@
 import pygame
+from core.resource_manager import ResourceManager
+from core.render import Render
 from cats.cat import Cat
 from cats.cat_animations import CatAnimations
 
@@ -15,8 +17,8 @@ pygame.display.set_icon(icon)
 background = pygame.image.load("cats/images/background.jpg")
 background = pygame.transform.scale(background, (640, 400)).convert()
 
-# Load animations, create clock and cat
-CatAnimations.load_all()
+# Load animations and other UI elements, create clock and cat
+ResourceManager.load_all()
 clock = pygame.time.Clock()
 cat = Cat()
 
@@ -36,6 +38,8 @@ while running:
                 cat.action("walk")
 
     screen.blit(background, (0, 0))
+    Render.draw_happiness_bar(screen)
+
     cat.update()
     cat.draw(screen)
     pygame.display.flip()
