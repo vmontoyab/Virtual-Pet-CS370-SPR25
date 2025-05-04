@@ -12,7 +12,10 @@ class CatAnimations:
             "sleep": cls.load_action("Sleep.png",1.5),
             "idle": cls.load_action("Idle.png",1.7),
             "die": cls.load_action("Dead2.png"),
-            "throw_ball": cls.load_obj("BlueBall-Sheet.png",24,16) 
+            "throw_ball": cls.load_obj("BlueBall-Sheet.png",24,16),
+            "running": cls.load_action("running.png"),
+            "sad": cls.load_action("crying.png"),
+            "happy":cls.load_action("happy.png")
         }
         
     @classmethod

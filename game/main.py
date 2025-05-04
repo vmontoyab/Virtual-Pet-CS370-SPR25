@@ -10,14 +10,6 @@ pygame.init()
 pygame.display.set_caption('Virtual Pet!')
 screen = pygame.display.set_mode((640, 400))
 
-# Set Icon
-icon = pygame.image.load('cats/images/pet.png').convert_alpha()
-pygame.display.set_icon(icon)
-
-# Load living room background
-background = pygame.image.load("cats/images/background.jpg")
-background = pygame.transform.scale(background, (640, 400)).convert()
-
 # Load animations and other UI elements, create clock and cat
 ResourceManager.load_all()
 clock = pygame.time.Clock()
@@ -42,7 +34,9 @@ while running:
     if(not cat_state.is_alive):
         cat.action("die")
     
-    screen.blit(background, (0, 0))
+    screen.blit(ResourceManager.background, (0, 0))
+    #screen.blit(ResourceManager.food_bowl, ())
+    screen.blit(ResourceManager.toy, (375,275))
     Render.draw_happiness_bar(screen)
 
     cat.update()
