@@ -16,9 +16,12 @@ class Cat(Animal):
         
         # Handle y-movement
         if action == "jump":
-            self.animator.set_animation(action, loop=False)
+            self.animator.set_animation(action, 3, loop=False)
             self.animator.set_frame_duration(3)
             self.motion.jump(self.animator.facing)
+        elif action ==  "die":
+            self.animator.set_animation(action, 1, loop=False)
+            self.motion.stop()
         elif action in ("idle", "sleep"):
             self.animator.set_animation(action, loop=True)
             self.motion.stop() # Do not move horizontally, stay in place
