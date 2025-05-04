@@ -28,3 +28,7 @@ class Render:
         pygame.draw.rect(screen, (50,200,50),
             (cls.BAR_X, cls.BAR_Y, cls.BAR_WIDTH, cls.BAR_HEIGHT)
         )
+
+#def blit() -> to draw the background
+#def draw_food_bowl
+#def draw_toy
