@@ -1,6 +1,7 @@
 import pygame
 from core.resource_manager import ResourceManager
 from core.render import Render
+from core.pet_state import PetState
 from cats.cat import Cat
 from cats.cat_animations import CatAnimations
 
@@ -21,6 +22,7 @@ background = pygame.transform.scale(background, (640, 400)).convert()
 ResourceManager.load_all()
 clock = pygame.time.Clock()
 cat = Cat()
+cat_state = PetState()
 
 # Game loop
 running = True
@@ -37,10 +39,14 @@ while running:
             if event.key == pygame.K_SPACE:
                 cat.action("walk")
 
+    if(not cat_state.is_alive):
+        cat.action("die")
+    
     screen.blit(background, (0, 0))
     Render.draw_happiness_bar(screen)
 
     cat.update()
+    cat_state.update()
     cat.draw(screen)
     pygame.display.flip()
     clock.tick(60)

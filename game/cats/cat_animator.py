@@ -15,12 +15,14 @@ class CatAnimator(Animator):
         self.frame_duration = time
     
     # Replace current animation with passed-in animation
-    def set_animation(self, animation_name, loop=True):
+    def set_animation(self, animation_name, end_frame_index=0, loop=True):
         if self.current_animation != animation_name:
             super().set_animation(animation_name)
             self.frames = CatAnimations.get(animation_name)
             self.loop = loop
             self.finished = False
+            # TODO: find more elegant way to handle ending at diff frames 
+            self.end_frame = len(self.frames)-end_frame_index 
 
     # Hold frame for certain length, then switch to next frame
     def update(self):
@@ -33,9 +35,9 @@ class CatAnimator(Animator):
             self.current_frame += 1
 
             if self.current_frame >= len(self.frames):
-                if self.loop:
-                    self.current_frame = 0  # Start from first frame
-                else:
-                    # Jump animation doesn't loop and ends on 3nd to last frame
-                    self.current_frame = len(self.frames) - 3  
+                if not self.loop:
                     self.finished = True
+                    self.current_frame = self.end_frame  
+                else:
+                    self.current_frame = 0
+                    

@@ -4,6 +4,7 @@ from cats.cat_animations import CatAnimations
 
 class ResourceManager:
     happy_icon = None
+    food_bowl = None
 
     @classmethod
     def load_all(cls):
