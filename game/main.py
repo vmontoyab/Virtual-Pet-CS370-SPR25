@@ -110,18 +110,11 @@ try:
                     distance_print_timer = 0
             
             # Track proximity duration for more reliable detection
-            if distance is not None and distance < PROXIMITY_THRESHOLD:
-                proximity_counter += 1
-                # Print feedback on first detection
-                if proximity_counter == 1:
-                    print(f"Hand detected at {distance}cm - preparing to feed...")
-                
-                # Only trigger feeding if hand stays close for PROXIMITY_DURATION frames
-                if proximity_counter >= PROXIMITY_DURATION and not is_feeding and not cat_state.is_feeding:
-                    print(f"FEEDING CAT at {distance}cm")
-                    cat_state.feed()
-                    is_feeding = True
-                    cat.action("idle")  # Cat stays still while eating
+            if distance is not None and distance < PROXIMITY_THRESHOLD and not is_feeding and not cat_state.is_feeding:
+                print(f"Hand detected at {distance}cm - FEEDING CAT")
+                cat_state.feed()
+                is_feeding = True
+                cat.action("idle")  # Cat stays still while eating
             else:
                 proximity_counter = 0  # Reset counter when hand moves away
                 

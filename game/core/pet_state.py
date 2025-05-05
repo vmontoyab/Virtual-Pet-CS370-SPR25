@@ -15,9 +15,13 @@ class PetState:
         self.last_printed_happiness = self.MAX_HAPPINESS  # Track last printed value
 
     def feed(self):
-        if(not self.is_feeding and not(self.happiness <= self.MAX_HAPPINESS-self.FEED_BOOST)):
+        # Remove the happiness check to ensure feeding always works
+        if not self.is_feeding:
+            print("Starting feeding sequence")
             self.is_feeding = True
             self.hunger_timer = 0
+            # trigger the happiness boost immediately
+            self.finish_eating()
 
     def finish_eating(self):
         self.happiness += self.FEED_BOOST
