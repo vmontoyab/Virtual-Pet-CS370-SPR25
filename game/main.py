@@ -109,14 +109,12 @@ try:
                     print(f"Current distance: {distance}cm")
                     distance_print_timer = 0
             
-            # Track proximity duration for more reliable detection
+            # Detect hand and start feeding (immediately detect, but feeding process takes 3 seconds)
             if distance is not None and distance < PROXIMITY_THRESHOLD and not is_feeding and not cat_state.is_feeding:
-                print(f"Hand detected at {distance}cm - FEEDING CAT")
+                print(f"Hand detected at {distance}cm - Starting to feed cat (takes 3 seconds)")
                 cat_state.feed()
                 is_feeding = True
                 cat.action("idle")  # Cat stays still while eating
-            else:
-                proximity_counter = 0  # Reset counter when hand moves away
                 
             # Sound sensor for playing/jumping
             if sound_detected() and sound_cooldown_timer <= 0:
