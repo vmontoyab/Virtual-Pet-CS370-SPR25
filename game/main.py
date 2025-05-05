@@ -55,11 +55,13 @@ cat_state = PetState()
 PROXIMITY_THRESHOLD = 30  # cm - how close hand needs to be to feed cat
 PROXIMITY_DURATION = 10   # frames - how long hand needs to stay close
 SOUND_COOLDOWN = 30       # frames between sound-triggered actions
+DISTANCE_PRINT_INTERVAL = 60  # Print distance reading every 60 frames (≈1 second at 60fps)
 
 # Game state variables
 sound_cooldown_timer = 0
 is_feeding = False
 proximity_counter = 0     # Track how long hand stays in proximity
+distance_print_timer = 0  # Timer for printing distance readings
 
 # Game loop
 running = True
@@ -85,6 +87,7 @@ try:
                     print("Sound detection enabled - Cat is listening!")
                 elif event.key == pygame.K_d:
                     enable_distance_sensing()
+                    distance_print_timer = 0  # Reset timer when enabling
                     print("Distance sensing enabled - Ready to detect hands!")
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_s:
@@ -98,6 +101,13 @@ try:
         if SENSORS_AVAILABLE:
             # Ultrasonic sensor (proximity) for feeding
             distance = read_distance()
+            
+            # Print distance reading every second when distance sensing is enabled
+            if distance is not None:
+                distance_print_timer += 1
+                if distance_print_timer >= DISTANCE_PRINT_INTERVAL:
+                    print(f"Current distance: {distance}cm")
+                    distance_print_timer = 0
             
             # Track proximity duration for more reliable detection
             if distance is not None and distance < PROXIMITY_THRESHOLD:
