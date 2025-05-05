@@ -20,6 +20,7 @@ try:
     
     from sensors.ultrasonic import read_distance, setup as setup_ultrasonic, cleanup as cleanup_ultrasonic
     from sensors.sound import sound_detected, setup as setup_sound, cleanup as cleanup_sound
+    from sensors.sound import sound_detected, enable_listening, disable_listening
     
     # Initialize sensors
     setup_ultrasonic()
@@ -76,6 +77,13 @@ try:
                     cat_state.feed()
                     is_feeding = True
                     cat.action("idle")  # Cat stays still while eating
+                elif event.key == pygame.K_s:
+                    enable_listening()
+                    print("Sound detection enabled - Cat is listening!")
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_s:
+                    disable_listening()
+                    print("Sound detection disabled")
 
         # Sensor inputs (when available)
         if SENSORS_AVAILABLE:
