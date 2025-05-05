@@ -15,7 +15,7 @@ try:
     
     # Add parent directory to path to allow importing from sensors
     parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    if parent_dir not in sys.path:
+    if (parent_dir not in sys.path):
         sys.path.append(parent_dir)
     
     from sensors.ultrasonic import read_distance, setup as setup_ultrasonic, cleanup as cleanup_ultrasonic
@@ -53,7 +53,7 @@ cat_state = PetState()
 
 # Sensor control constants
 PROXIMITY_THRESHOLD = 30  # cm - how close hand needs to be to feed cat
-PROXIMITY_DURATION = 10   # frames - how long hand needs to stay close
+PROXIMITY_DURATION = 10   # Reduced to 10 frames (about 0.17s) for quicker response
 SOUND_COOLDOWN = 30       # frames between sound-triggered actions
 DISTANCE_PRINT_INTERVAL = 60  # Print distance reading every 60 frames (≈1 second at 60fps)
 
@@ -112,12 +112,16 @@ try:
             # Track proximity duration for more reliable detection
             if distance is not None and distance < PROXIMITY_THRESHOLD:
                 proximity_counter += 1
+                # Print feedback on first detection
+                if proximity_counter == 1:
+                    print(f"Hand detected at {distance}cm - preparing to feed...")
+                
                 # Only trigger feeding if hand stays close for PROXIMITY_DURATION frames
-                if proximity_counter >= PROXIMITY_DURATION and not is_feeding:
+                if proximity_counter >= PROXIMITY_DURATION and not is_feeding and not cat_state.is_feeding:
+                    print(f"FEEDING CAT at {distance}cm")
                     cat_state.feed()
                     is_feeding = True
                     cat.action("idle")  # Cat stays still while eating
-                    print(f"Hand detected at {distance}cm - Feeding cat")
             else:
                 proximity_counter = 0  # Reset counter when hand moves away
                 
