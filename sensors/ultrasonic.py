@@ -8,6 +8,9 @@ SPEED_OF_SOUND = 0.034  # cm/µs
 MAX_VALID_DISTANCE = 200  # Maximum reasonable distance in cm
 READING_HISTORY_SIZE = 3  # Number of previous readings to store
 
+# Add a global flag to enable/disable distance sensing
+distance_sensing_enabled = False
+
 # Store recent readings to filter out anomalies
 distance_history = []
 
@@ -64,7 +67,12 @@ def read_distance():
     Return the filtered distance measurement.
     Uses median filtering to remove outliers.
     Returns None if no valid reading available.
+    Only measures distance when distance_sensing_enabled is True.
     """
+    # Skip reading if distance sensing is disabled
+    if not distance_sensing_enabled:
+        return None
+
     global distance_history
     
     # Take a new reading
@@ -90,6 +98,16 @@ def read_distance():
     sorted_readings = sorted(distance_history)
     median_index = len(sorted_readings) // 2
     return sorted_readings[median_index]
+
+def enable_distance_sensing():
+    """Enable distance sensing"""
+    global distance_sensing_enabled
+    distance_sensing_enabled = True
+
+def disable_distance_sensing():
+    """Disable distance sensing"""
+    global distance_sensing_enabled
+    distance_sensing_enabled = False
 
 def cleanup():
     GPIO.cleanup()

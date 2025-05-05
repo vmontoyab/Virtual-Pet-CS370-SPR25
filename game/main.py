@@ -21,6 +21,7 @@ try:
     from sensors.ultrasonic import read_distance, setup as setup_ultrasonic, cleanup as cleanup_ultrasonic
     from sensors.sound import sound_detected, setup as setup_sound, cleanup as cleanup_sound
     from sensors.sound import sound_detected, enable_listening, disable_listening
+    from sensors.ultrasonic import read_distance, enable_distance_sensing, disable_distance_sensing
     
     # Initialize sensors
     setup_ultrasonic()
@@ -82,19 +83,21 @@ try:
                 elif event.key == pygame.K_s:
                     enable_listening()
                     print("Sound detection enabled - Cat is listening!")
+                elif event.key == pygame.K_d:
+                    enable_distance_sensing()
+                    print("Distance sensing enabled - Ready to detect hands!")
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_s:
                     disable_listening()
                     print("Sound detection disabled")
+                elif event.key == pygame.K_d:
+                    disable_distance_sensing()
+                    print("Distance sensing disabled")
 
         # Sensor inputs (when available)
         if SENSORS_AVAILABLE:
             # Ultrasonic sensor (proximity) for feeding
             distance = read_distance()
-            
-            # Debug distance readings
-            if distance is not None and distance < 100:
-                print(f"Distance: {distance}cm")
             
             # Track proximity duration for more reliable detection
             if distance is not None and distance < PROXIMITY_THRESHOLD:
@@ -104,7 +107,7 @@ try:
                     cat_state.feed()
                     is_feeding = True
                     cat.action("idle")  # Cat stays still while eating
-                    print(f"Hand detected at {distance}cm for {proximity_counter} frames - Feeding cat")
+                    print(f"Hand detected at {distance}cm - Feeding cat")
             else:
                 proximity_counter = 0  # Reset counter when hand moves away
                 
