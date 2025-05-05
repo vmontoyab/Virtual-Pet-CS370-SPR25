@@ -52,11 +52,13 @@ cat_state = PetState()
 
 # Sensor control constants
 PROXIMITY_THRESHOLD = 30  # cm - how close hand needs to be to feed cat
-SOUND_COOLDOWN = 30  # frames between sound-triggered actions
+PROXIMITY_DURATION = 10   # frames - how long hand needs to stay close
+SOUND_COOLDOWN = 30       # frames between sound-triggered actions
 
-# Game state
+# Game state variables
 sound_cooldown_timer = 0
 is_feeding = False
+proximity_counter = 0     # Track how long hand stays in proximity
 
 # Game loop
 running = True
@@ -89,11 +91,22 @@ try:
         if SENSORS_AVAILABLE:
             # Ultrasonic sensor (proximity) for feeding
             distance = read_distance()
-            if distance is not None and distance < PROXIMITY_THRESHOLD and not is_feeding:
-                cat_state.feed()
-                is_feeding = True
-                cat.action("idle")  # Cat stays still while eating
-                print(f"Hand detected at {distance}cm - Feeding cat")
+            
+            # Debug distance readings
+            if distance is not None and distance < 100:
+                print(f"Distance: {distance}cm")
+            
+            # Track proximity duration for more reliable detection
+            if distance is not None and distance < PROXIMITY_THRESHOLD:
+                proximity_counter += 1
+                # Only trigger feeding if hand stays close for PROXIMITY_DURATION frames
+                if proximity_counter >= PROXIMITY_DURATION and not is_feeding:
+                    cat_state.feed()
+                    is_feeding = True
+                    cat.action("idle")  # Cat stays still while eating
+                    print(f"Hand detected at {distance}cm for {proximity_counter} frames - Feeding cat")
+            else:
+                proximity_counter = 0  # Reset counter when hand moves away
                 
             # Sound sensor for playing/jumping
             if sound_detected() and sound_cooldown_timer <= 0:
