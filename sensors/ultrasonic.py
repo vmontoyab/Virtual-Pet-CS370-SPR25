@@ -6,16 +6,17 @@ ECHO_PIN = 24  # Physical pin 18
 TIMEOUT  = 0.02  # 20ms
 SPEED_OF_SOUND = 0.034  # cm/µs
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(TRIG_PIN, GPIO.OUT)
-GPIO.setup(ECHO_PIN, GPIO.IN)
+# Move setup to a setup function instead of module level
+def setup():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(TRIG_PIN, GPIO.OUT)
+    GPIO.setup(ECHO_PIN, GPIO.IN)
 
 def read_distance():
     """
     Returns the distance (in cm) measured by the HC-SR04, or None on timeout.
     Distance formula: (pulse_duration_us * SPEED_OF_SOUND) / 2
     """
-
     # Ensure TRIG is LOW briefly
     GPIO.output(TRIG_PIN, False)
     time.sleep(0.00005)  # 50 µs

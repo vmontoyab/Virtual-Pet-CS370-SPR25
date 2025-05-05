@@ -2,8 +2,10 @@ import RPi.GPIO as GPIO
 
 SOUND_PIN = 17  # e.g. physical pin 11
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(SOUND_PIN, GPIO.IN)
+# Move setup to a setup function instead of module level
+def setup():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(SOUND_PIN, GPIO.IN)
 
 def sound_detected():
     """
