@@ -89,16 +89,6 @@ try:
                     disable_distance_sensing()
                     print("Distance sensing disabled")
 
-<<<<<<< HEAD
-    if(not cat_state.is_alive):
-        cat.action("die")
-    
-    screen.blit(ResourceManager.background, (0, 0))
-    screen.blit(ResourceManager.toy, (375,275))
-    Render.draw_happiness_bar(screen)
-    Render.draw_food_bowl(screen)
-
-=======
         # Sensor inputs (when available)
         if SENSORS_AVAILABLE:
             # Ultrasonic sensor (proximity) for feeding
@@ -127,7 +117,6 @@ try:
             # Decrement sound cooldown timer
             if sound_cooldown_timer > 0:
                 sound_cooldown_timer -= 1
->>>>>>> d0caaf2c5f71515140cc5053c41421a898e59c97
 
         # If cat is eating and finishes, update state
         if is_feeding and not cat_state.is_feeding:
@@ -137,7 +126,7 @@ try:
         if not cat_state.is_alive:
             cat.action("die")
         
-        screen.blit(background, (0, 0))
+        screen.blit(ResourceManager.background, (0, 0))
         Render.draw_happiness_bar(screen)
 
         cat.update()
