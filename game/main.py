@@ -35,9 +35,10 @@ while running:
         cat.action("die")
     
     screen.blit(ResourceManager.background, (0, 0))
-    #screen.blit(ResourceManager.food_bowl, ())
     screen.blit(ResourceManager.toy, (375,275))
     Render.draw_happiness_bar(screen)
+    Render.draw_food_bowl(screen)
+
 
     cat.update()
     cat_state.update()

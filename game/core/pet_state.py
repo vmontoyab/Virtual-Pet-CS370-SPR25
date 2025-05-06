@@ -9,6 +9,8 @@ class PetState:
     def __init__(self):
         self.happiness = self.MAX_HAPPINESS
         self.is_alive = True
+        self.sad = False
+        self.super_happy = True
         self.hunger_timer = 0
         self.is_feeding = False
         self.is_playing = False
@@ -21,6 +23,15 @@ class PetState:
     def finish_eating(self):
         self.happiness += self.FEED_BOOST
         self.is_feeding = False
+
+    #need to make these two methods affect cat actions loaded (sad and happpy in cat_animations)
+    def is_sad(self):
+        if(self.happiness < self.MAX_HAPPINESS/2):
+            self.sad = True
+
+    def is_super_happy(self):
+        if(self.happiness == self.MAX_HAPPINESS or self.happiness >= self.MAX_HAPPINESS -10):
+            self.super_happy = True
 
     def update(self):
         # Below lines are temporary j to test!!!!!!

@@ -29,6 +29,10 @@ class Render:
             (cls.BAR_X, cls.BAR_Y, cls.BAR_WIDTH, cls.BAR_HEIGHT)
         )
 
-#def blit() -> to draw the background
-#def draw_food_bowl
-#def draw_toy
+    @classmethod   
+    def draw_food_bowl(cls, screen):          #location on screen, cropped area of picture, size of image
+        screen.blit(ResourceManager.food_bowl, (485,300),(cls.BAR_X+9, cls.BAR_Y-85, 50,50))
+
+    @classmethod
+    def draw_toy(cls, screen):
+        screen.blit(ResourceManager.toy, (cls.BAR_X-25, cls.BAR_Y-75))
