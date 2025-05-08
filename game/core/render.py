@@ -1,5 +1,6 @@
 import pygame
 from core.resource_manager import ResourceManager
+from core.pet_state import PetState
 
 # Responsible for drawing interactive elements: happiness bar, happy_meter icon, bowl, play icon.
 class Render:
@@ -11,7 +12,7 @@ class Render:
     BORDER = 2
 
     @classmethod
-    def draw_happiness_bar(cls, screen):
+    def draw_happiness_bar(cls, screen, pet_state: PetState):
         screen.blit(ResourceManager.happy_icon, (cls.BAR_X-25, cls.BAR_Y-75))
 
         # Draws a white border with x,y,width,and height
@@ -24,7 +25,21 @@ class Render:
         pygame.draw.rect(screen, (50,50,50),
             (cls.BAR_X, cls.BAR_Y, cls.BAR_WIDTH, cls.BAR_HEIGHT)
         )
-        # Fill bar with green color to begin with 
-        pygame.draw.rect(screen, (50,200,50),
-            (cls.BAR_X, cls.BAR_Y, cls.BAR_WIDTH, cls.BAR_HEIGHT)
+
+        # Compute happiness ratio
+        ratio = pet_state.happiness / PetState.MAX_HAPPINESS
+        # Ensure ratio is between 0-100 by clamping
+        clamped_ratio = max(0.0, min(1.0, ratio))
+        # Translate happiness: 0-100 into its pixel equivalent
+        filled_height = int(clamped_ratio * Render.BAR_HEIGHT)
+
+        pygame.draw.rect(
+            screen,
+            (50, 200, 50),  
+            (
+                Render.BAR_X,
+                Render.BAR_Y + (Render.BAR_HEIGHT - filled_height),
+                Render.BAR_WIDTH,
+                filled_height
+            )
         )
