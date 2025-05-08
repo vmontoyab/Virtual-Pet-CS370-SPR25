@@ -135,7 +135,7 @@ try:
             cat.action("die")
         
         screen.blit(background, (0, 0))
-        Render.draw_happiness_bar(screen)
+        Render.draw_happiness_bar(screen,cat_state)
 
         cat.update()
         cat_state.update()
